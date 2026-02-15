@@ -2,7 +2,6 @@ import typing as T
 
 from google.protobuf.descriptor_pb2 import DescriptorProto, FileDescriptorProto, FileDescriptorSet
 
-
 JsonType = T.Union[str, dict[str, T.Any]]
 
 
