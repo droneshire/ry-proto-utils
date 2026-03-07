@@ -43,13 +43,20 @@ check_format:
 mypy:
 	$(RUN_PY) mypy $(shell $(PY_FIND_COMMAND)) --config-file $(MYPY_CONFIG) --no-namespace-packages
 
+ty:
+	@if command -v ty >/dev/null 2>&1; then \
+		ty check --exit-zero $(shell $(PY_FIND_COMMAND)); \
+	else \
+		echo "ty is not installed; skipping ty check"; \
+	fi
+
 pylint:
 	PYLINTHOME=.pylint.d $(RUN_PY) pylint $(shell $(PY_FIND_COMMAND))
 
 isort:
 	isort $(shell $(PY_FIND_COMMAND))
 
-lint: check_format mypy pylint
+lint: check_format ty pylint
 
 lint_full: lint
 
@@ -62,7 +69,7 @@ clean:
 	rm -rf .coverage
 	rm -rf packages/requirements*.txt
 
-.PHONY: init install install_dev format check_format mypy pylint isort lint lint_full test clean
+.PHONY: init install install_dev format check_format mypy ty pylint isort lint lint_full test clean
 
 release:
 	@if [ "$(shell git rev-parse --abbrev-ref HEAD)" != "main" ]; then \
