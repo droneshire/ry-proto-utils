@@ -19,3 +19,16 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "ry_proto_utils" = ["py.typed"]
+
+# ty type checker (used by lint/lint_full). Mypy config kept in src/mypy_config.ini for mypy target.
+[tool.ty.environment]
+python-version = "3.12"
+extra-paths = ["src", "build", "data_types", "database"]
+
+[tool.ty.src]
+exclude = ["**/*_pb2.py"]
+
+[tool.ty.analysis]
+allowed-unresolved-imports = [
+]
+
